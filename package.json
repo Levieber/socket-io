@@ -1,0 +1,20 @@
+{
+  "name": "alura-docs",
+  "version": "1.0.0",
+  "main": "./src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --no-warnings --env-file .env --watch ."
+  },
+  "engines": {
+    "node": "20.10.0"
+  },
+  "packageManager": "npm@10.2.3",
+  "author": "Levi Eber",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "socket.io": "^4.7.3"
+  }
+}
