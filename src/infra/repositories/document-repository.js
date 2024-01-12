@@ -10,14 +10,14 @@ export class DocumentRepository {
   }
 
   findAll() {
-    return this.#client.find().toArray();
+    return this.#client.find();
   }
 
   create({ name }) {
     return this.#client.insertOne({ name, text: "" });
   }
 
-  updateOne(name, newContent) {
+  updateOne({ name }, newContent) {
     const setter = {};
 
     for (const [key, value] of Object.entries(newContent)) {
@@ -34,7 +34,7 @@ export class DocumentRepository {
     );
   }
 
-  deleteOne(name) {
+  deleteOne({ name }) {
     return this.#client.deleteOne({ name });
   }
 }

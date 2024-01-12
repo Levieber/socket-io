@@ -1,53 +1,10 @@
-import { documentRepository, io } from "./server.js";
+import { documentsFactory } from "./infra/factories/documents-factory.js";
+import { authFactory } from "./infra/factories/auth-factory.js";
 
-export function handleSocket(socket) {
-  socket.on("get-documents", async (updateDocuments) => {
-    updateDocuments(await documentRepository.findAll());
-  });
+export function handleRoutes(socket, io) {
+  authFactory(socket, io).init();
+}
 
-  socket.on("create-document", async (documentName) => {
-    const documentAlreadyExists =
-      (await documentRepository.findByName(documentName)) !== null;
-
-    if (documentAlreadyExists) {
-      socket.emit("document-already-exists", documentName);
-      return;
-    }
-
-    const result = await documentRepository.create({ name: documentName });
-
-    if (result.acknowledged) {
-      io.emit("create-document", documentName);
-    }
-  });
-
-  socket.on("delete-document", async (documentName) => {
-    const result = await documentRepository.deleteOne(documentName);
-
-    if (result.deletedCount) {
-      io.emit("delete-document", documentName);
-    }
-  });
-
-  socket.on("select-document", async (documentName, updateTextEditor) => {
-    socket.join(documentName);
-
-    const document = await documentRepository.findByName(documentName);
-
-    if (document) {
-      updateTextEditor(document.text);
-    }
-  });
-
-  socket.on("edited-text", ({ text, documentName }) => {
-    socket.to(documentName).emit("edited-text", text);
-  });
-
-  socket.on("save-document-text", async ({ text, documentName }) => {
-    await documentRepository.updateOne(documentName, { text });
-  });
-
-  socket.on("disconnect", (reason) => {
-    console.log(`Client "${socket.id}" disconnected! Reason: ${reason}`);
-  });
+export function handleProtectedRoutes(socket, io) {
+  documentsFactory(socket, io).init();
 }

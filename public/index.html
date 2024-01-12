@@ -18,6 +18,13 @@
   <body class="col-lg-6 mt-3 mx-auto">
     <header>
       <h1 class="text-center display-2 mb-4">AluraDocs</h1>
+
+      <div class="d-flex justify-content-center align-items-center gap-3 my-3">
+        <span class="text-capitalize" id="usuario"></span>
+        <button id="botao-logout" class="btn btn-outline-primary">
+          Logout
+        </button>
+      </div>
     </header>
 
     <main class="w-75 mx-auto">
@@ -25,9 +32,9 @@
 
       <form id="form-adiciona-documento" class="row g-3">
         <div class="col-md-6">
-          <label class="visually-hidden" for="input-documento"
-            >Nome do documento</label
-          >
+          <label class="visually-hidden" for="input-documento">
+            Nome do documento
+          </label>
           <input
             type="text"
             class="form-control"
@@ -51,6 +58,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script type="module" src="./documentos.js"></script>
+    <script type="module" src="./documents.js"></script>
   </body>
 </html>
